@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 app.post('/repos', function (req, res) {
   gitHub(req.body.login, (err, results) => {
     resultsArr = JSON.parse(results);
+    // console.log(resultsArr)
     save(resultsArr);
   })
 });

@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/fetcher', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost/fetcher', { useNewUrlParser: true });
 
 
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() { console.log('database open')});
+db.once('open', function () { console.log('database open') });
 
 let repoSchema = mongoose.Schema({
   id: Number,
@@ -18,22 +18,24 @@ let repoSchema = mongoose.Schema({
 let Repo = mongoose.model('Repo', repoSchema);
 
 let save = (repos) => {
-  for(let i = 0; i < repos.length; i++) {
-    console.log(i)
+  for (let i = 0; i < repos.length; i++) {
+    let temp = new Repo({
+      id: repos[i].id,
+      name: repos[i].name,
+      owner: repos[i].owner.login,
+      url: repos[i].url,
+      forks: repos[i].forks
+    })
+    temp.save((err, tempRepo) => {
+      if (err) return console.log(err);
+      console.log('created a document instance!')
+    })
   }
-  // repos.forEach(repo => {
-  //   let tempRepo = new Repo({
-  //     id: repo.id,
-  //     name: repo.name,
-  //     owner: repo.owner,
-  //     url: repo.url,
-  //     forks: repo.forks
-  //   })
-    // console.log('THIS IS A TEMP REPO', tempRepo)
-    // tempRepo.save((err, tempRepo) => {
-    //   if(err) return console.log(err);
-    //   console.log('created a document instance!')
-    // })
+
+  // tempRepo.save((err, tempRepo) => {
+  //   if(err) return console.log(err);
+  //   console.log('created a document instance!')
+  // })
   // })
 }
 
