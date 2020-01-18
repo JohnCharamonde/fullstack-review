@@ -16,6 +16,7 @@ let getReposByUsername = (username) => {
       'Authorization': `token ${config.TOKEN}`
     }
   };
+  request.get(options);
 
 }
 

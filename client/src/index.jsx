@@ -15,15 +15,20 @@ class App extends React.Component {
 
   search (term) {
     console.log(`${term} was searched`);
+    var obj = {login: term};
+    var data = JSON.stringify(obj);
+    console.log('this is data', data);
     $.ajax({
       method: 'POST',
       url: '/repos',
-      data: {login: term},
+      data: data,
+      contentType: 'application/json',
+      dataType: 'json',
       success: function() {
         console.log('it worked! Or so I think...');
       },
       error: function() {
-        console.log('it did not work...')
+        console.log('client ajax search not working!')
       }
     });
   }
