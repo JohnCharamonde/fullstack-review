@@ -22,10 +22,6 @@ let getReposByUsername = (username, callback) => {
       callback(null, response.body);
     }
   })
-  // .on('response', function(response) {
-  //   console.log(response) // 200
-  //   console.log(response.headers['content-type']) // 'image/png'
-  // })
 }
 
 module.exports.getReposByUsername = getReposByUsername;
