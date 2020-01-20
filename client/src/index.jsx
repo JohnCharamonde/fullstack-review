@@ -10,7 +10,6 @@ class App extends React.Component {
     this.state = {
       repos: []
     }
-
   }
 
   componentDidMount() {
@@ -22,48 +21,49 @@ class App extends React.Component {
   }
 
 
-  search (term) {
+  search(term) {
     console.log(`${term} was searched`);
-    var obj = {login: term};
+    var obj = { login: term };
     var data = JSON.stringify(obj);
-    console.log('this is data', data);
     $.ajax({
       method: 'POST',
       url: '/repos',
       data: data,
       contentType: 'application/json',
       dataType: 'json',
-      success: function() {
-        console.log('it worked! Or so I think...');
-      },
-      error: function() {
-        console.log('client ajax search not working!')
-      }
-    });
+      // success: function (result) {
+      //   console.log('success')
+      // },
+      // error: function (error) {
+      //   console.log('for some reason there is an error',this, error)
+      // }
+    })
+    .then(result => {
+      console.log('result', result)
+    })
   }
 
   getTopForked(callback) {
-    $.ajax({
-      method: 'GET',
-      url: '/repos',
-      contentTupe: 'application/json',
-      dataType: 'json',
-      success: function(results) {
-        callback(null, results)
-      },
-      error: function() {
-        console.log('client GET ajax search not working!')
-      }
-    });
-  }
+      $.ajax({
+        method: 'GET',
+        url: '/repos',
+        contentTupe: 'application/json',
+        dataType: 'json',
+        success: function (results) {
+          callback(null, results)
+        },
+        error: function (error) {
+          console.log(error)
+        }
+      });
+    }
 
-  render () {
-    console.log('this seems to be happening twice!', this.state)
-    return (<div>
-      <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos}/>
-      <Search onSearch={this.search.bind(this)}/>
-    </div>)
+  render() {
+    return(<div>
+    <h1>GITHUB FETCHER</h1>
+    <RepoList repos={this.state.repos} />
+    <Search onSearch={this.search.bind(this)} />
+    </div >)
   }
 }
 
