@@ -17,7 +17,7 @@ const RepoList = (props) => (
             return(
             <tr>
               <td>{repo.forks}</td>
-              <td onClick={() => {console.log(repo.url)}}>{repo.name}</td>
+              <td><a href={repo.url}>{repo.name}</a></td>
               <td>{repo.owner}</td>
             </tr>
             )
