@@ -31,15 +31,21 @@ class App extends React.Component {
       data: data,
       contentType: 'application/json',
       dataType: 'json',
+      error: (results) => {
+        this.getTopForked((err, results) => {
+          this.setState({
+            repos: results
+          })
+        })
+        console.log(this.state.repos)
+        // not sure why my respone is always an error....
+      }
       // success: function (result) {
       //   console.log('success')
       // },
       // error: function (error) {
       //   console.log('for some reason there is an error',this, error)
       // }
-    })
-    .then(result => {
-      console.log('result', result)
     })
   }
 
