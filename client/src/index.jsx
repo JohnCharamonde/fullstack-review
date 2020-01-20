@@ -13,6 +13,15 @@ class App extends React.Component {
 
   }
 
+  componentDidMount() {
+    this.getTopForked((err, results) => {
+      this.setState({
+        repos: results
+      })
+    });
+  }
+
+
   search (term) {
     console.log(`${term} was searched`);
     var obj = {login: term};
@@ -33,7 +42,23 @@ class App extends React.Component {
     });
   }
 
+  getTopForked(callback) {
+    $.ajax({
+      method: 'GET',
+      url: '/repos',
+      contentTupe: 'application/json',
+      dataType: 'json',
+      success: function(results) {
+        callback(null, results)
+      },
+      error: function() {
+        console.log('client GET ajax search not working!')
+      }
+    });
+  }
+
   render () {
+    console.log('this seems to be happening twice!', this.state)
     return (<div>
       <h1>Github Fetcher</h1>
       <RepoList repos={this.state.repos}/>

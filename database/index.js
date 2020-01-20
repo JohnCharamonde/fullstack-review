@@ -4,7 +4,7 @@ mongoose.connect('mongodb://localhost/fetcher', { useNewUrlParser: true });
 
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () { console.log('database open') });
+db.once('openUri', function () { console.log('database open') });
 
 let repoSchema = mongoose.Schema({
   id: Number,
@@ -43,4 +43,20 @@ let save = (repos) => {
   }
 }
 
-module.exports.save = save;
+let retrieveTopForked = (callback) => {
+  Repo.find({}, (err, results) => {
+    if(err) console.log(err);
+    let resultsArr = [];
+    for(let i = 0; i < results.length; i++) {
+      resultsArr.push(results[i]._doc);
+    }
+    resultsArr.sort((a, b) => { return b.forks - a.forks; });
+    callback(null, resultsArr.slice(0, 25))
+  });
+
+}
+
+module.exports = {
+  save: save,
+  retrieveTopForked: retrieveTopForked
+};
